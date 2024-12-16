@@ -39,7 +39,7 @@ def load_csv_data(file_path):
     detected_encoding = encoding_result['encoding']
     print(f"Detected file encoding: {detected_encoding}")
     print("Loading a maximum of 10,000 rows for performance optimization...")
-    return pd.read_csv(file_path, encoding=detected_encoding, nrows=10000)
+    return pd.read_csv(file_path, encoding=detected_encoding, nrows=5000)
 
 # Function to perform basic data analysis
 def perform_data_analysis(data_frame):
