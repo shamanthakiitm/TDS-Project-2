@@ -28,9 +28,9 @@ import chardet
 API_URL = "https://aiproxy.sanand.workers.dev/openai/v1/chat/completions"
 AIPROXY_TOKEN = os.getenv('AIPROXY_TOKEN', "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjIzZjIwMDE5NDJAZHMuc3R1ZHkuaWl0bS5hYy5pbiJ9.I8IkdGIUiqJf35Ewq0ugD-TO0UV_knI7nUN7zTEnq2k")  # Use environment variable or set directly
 
-# Function to load CSV data with encoding detection
+# Function to load CSV data with encoding detection and row limit
 def load_csv_data(file_path):
-    """Load CSV data, automatically detecting file encoding."""
+    """Load CSV data, automatically detecting file encoding and limiting to 10,000 rows."""
     if not os.path.isfile(file_path):
         print(f"Error: File '{file_path}' not found.")
         sys.exit(1)
@@ -38,7 +38,8 @@ def load_csv_data(file_path):
         encoding_result = chardet.detect(file_handle.read())
     detected_encoding = encoding_result['encoding']
     print(f"Detected file encoding: {detected_encoding}")
-    return pd.read_csv(file_path, encoding=detected_encoding)
+    print("Loading a maximum of 10,000 rows for performance optimization...")
+    return pd.read_csv(file_path, encoding=detected_encoding, nrows=10000)
 
 # Function to perform basic data analysis
 def perform_data_analysis(data_frame):
